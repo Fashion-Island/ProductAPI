@@ -9,10 +9,8 @@ const pool = new Pool({
   port: 5432,
 })
 
-pool.query('SELECT NOW()', (err, res) => {
-  console.log(res.rows)
-  pool.end()
-})
+pool.connect();
+module.exports = pool
 
 // clients will also use environment variables
 // for connection information

@@ -2,7 +2,7 @@
 CREATE DATABASE products;
 \c products;
 
-CREATE TABLE products (
+CREATE TABLE products IF NOT EXISTS(
   product_id INT NOT NULL,
   name VARCHAR(100) NOT NULL,
   slogan VARCHAR(255) NOT NULL,
@@ -12,7 +12,7 @@ CREATE TABLE products (
   PRIMARY KEY(product_id)
 );
 
-CREATE TABLE feature (
+CREATE TABLE feature IF NOT EXISTS(
   id INT NOT NULL,
   product_id INT NOT NULL,
   feature VARCHAR(100) NOT NULL,
@@ -21,7 +21,7 @@ CREATE TABLE feature (
   FOREIGN KEY(product_id) REFERENCES products(product_id)
 );
 
-CREATE TABLE related (
+CREATE TABLE related IF NOT EXISTS(
   id INT NOT NULL,
   product_id INT NOT NULL,
   related_id INT NOT NULL,
@@ -29,7 +29,7 @@ CREATE TABLE related (
   FOREIGN KEY(product_id) REFERENCES products(product_id)
 );
 
-CREATE TABLE cart (
+CREATE TABLE cart IF NOT EXISTS(
   id INT NOT NULL,
   user_session INT NOT NULL,
   product_id INT NOT NULL,
@@ -38,7 +38,7 @@ CREATE TABLE cart (
   FOREIGN KEY(product_id) REFERENCES products(product_id)
 );
 
-CREATE TABLE styles (
+CREATE TABLE styles IF NOT EXISTS(
   style_id INT NOT NULL,
   product_id INT NOT NULL,
   name VARCHAR(100) NOT NULL,
@@ -49,7 +49,7 @@ CREATE TABLE styles (
   FOREIGN KEY(product_id) REFERENCES products(product_id)
 );
 
-CREATE TABLE skus (
+CREATE TABLE skus IF NOT EXISTS(
   id INT NOT NULL,
   style_id INT NOT NULL,
   size VARCHAR(10) NOT NULL,
@@ -58,7 +58,7 @@ CREATE TABLE skus (
   FOREIGN KEY(style_id) REFERENCES styles(style_id)
 );
 
-CREATE TABLE photo (
+CREATE TABLE photo IF NOT EXISTS(
   id INT NOT NULL,
   style_id INT NOT NULL,
   url TEXT ,
