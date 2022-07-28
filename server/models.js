@@ -9,4 +9,29 @@ module.exports = {
   },
 
   //getstyle
+  getOne: (product_id, callback) => {
+    //console.log("i am in side models")
+    let queryStr = `select * from products where product_id = ${product_id}`;
+    db.query(queryStr, (err, results) => {
+      callback(err, results);
+    })
+  },
+
+  getStyle: (product_id, callback) => {
+    let queryStr = `select * from styles where product_id = ${
+      product_id
+    }`;
+    db.query(queryStr, (err, results) => {
+      callback(err, results);
+    })
+  },
+
+  getRelated: (product_id, callback) => {
+    let queryStr = `select * from related where product_id = ${
+      product_id
+    }`;
+    db.query(queryStr, (err, results) => {
+      callback(err, results);
+    })
+  }
 }
