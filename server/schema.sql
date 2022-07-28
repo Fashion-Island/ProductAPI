@@ -67,13 +67,7 @@ CREATE TABLE photo (
   FOREIGN KEY(style_id) REFERENCES styles(style_id)
 );
 
-\copy products from '/Users/ted777/Desktop/data/product.csv' with delimiter ',' csv header;
-\copy feature from '/Users/ted777/Desktop/data/features.csv' with delimiter ',' csv header;
-\copy related from '/Users/ted777/Desktop/data/related.csv' with delimiter ',' csv header;
-\copy cart from '/Users/ted777/Desktop/data/cart.csv' with delimiter ',' csv header;
-\copy styles from '/Users/ted777/Desktop/data/styles.csv' with delimiter ',' csv header null '';
-\copy skus from '/Users/ted777/Desktop/data/skus.csv' with delimiter ',' csv header;
-\copy photo from '/Users/ted777/Desktop/data/photos.csv' with delimiter ',' csv header;
+
 /*  Execute this file from the command line by typing:
 psql -U postgres -f ./server/schema.sql
  *    mysql -u root < server/schema.sql
