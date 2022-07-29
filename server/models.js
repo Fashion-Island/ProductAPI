@@ -28,22 +28,24 @@ module.exports = {
   },
 
   getStyle: async (product_id, callback) => {
-    let styles, err;
+    let styles, err, styleData;
     try {
       let queryStr = `select s.style_id, s.name, s.sale_price, s.original_price, s.default_status,
-      json_agg(json_build_object('url',p.url,'thumbnail_url',p.thumbnail_url)) as photo
+      json_agg(json_build_object('url',p.url,'thumbnail_url',p.thumbnail_url)) as photo,
+      json_build_object(sk.id, json_build_object('quantity',sk.quantity,'size',sk.size)) as skus
       from styles as s
-      inner join photo as p
-      on p.style_id = s.style_id
+      inner join photo as p on p.style_id = s.style_id
+      inner join skus as sk on sk.style_id = s.style_id
       where s.product_id = ${product_id}
-      group by s.style_id, p.url`;
+      group by s.style_id,sk.id`;
       styles = await db.query(queryStr);
       console.log("this is the data", styles);
     } catch (err) {
       err = err.stack;
       console.log(err);
     }
-    callback(err, styles);
+    styleData = {"product_id": product_id, "results": styles.rows}
+    callback(err, styleData);
 
   },
 
