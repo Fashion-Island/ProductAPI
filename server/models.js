@@ -32,12 +32,12 @@ module.exports = {
     try {
       let queryStr = `select s.style_id, s.name, s.sale_price, s.original_price, s.default_status,
       json_agg(json_build_object('url',p.url,'thumbnail_url',p.thumbnail_url)) as photo,
-      json_build_object(sk.id, json_build_object('quantity',sk.quantity,'size',sk.size)) as skus
+      json_object_agg(sk.id, json_build_object('quantity',sk.quantity,'size',sk.size)) as skus
       from styles as s
       inner join photo as p on p.style_id = s.style_id
       inner join skus as sk on sk.style_id = s.style_id
       where s.product_id = ${product_id}
-      group by s.style_id,sk.id`;
+      group by s.style_id`;
       styles = await db.query(queryStr);
       console.log("this is the data", styles);
     } catch (err) {
@@ -49,15 +49,6 @@ module.exports = {
 
   },
 
-  // getStyle: (product_id, callback) => {
-  //   let queryStr = `select * from styles where product_id = ${
-  //     product_id
-  //   }`;
-  //   db.query(queryStr, (err, results) => {
-  //     callback(err, results);
-  //   })
-  // },
-
   getRelated: (product_id, callback) => {
     let queryStr = `select * from related where product_id = ${
       product_id
@@ -67,3 +58,5 @@ module.exports = {
     })
   }
 }
+
+//json_build_object(sk.id, json_build_object('quantity',sk.quantity,'size',sk.size)) as skus

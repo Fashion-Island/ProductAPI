@@ -37,7 +37,7 @@ module.exports = {
         console.log('Unable to get data from database', err);
         res.sendStatus(500);
       } else {
-        console.log("successfully get single product styles",results);
+        //console.log("successfully get single product styles",results);
         res.status(200).send(results);
       }
     })
