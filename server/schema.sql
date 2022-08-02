@@ -2,7 +2,7 @@
 CREATE DATABASE products;
 \c products;
 
-CREATE TABLE products IF NOT EXISTS(
+CREATE TABLE products(
   product_id INT NOT NULL,
   name VARCHAR(100) NOT NULL,
   slogan VARCHAR(255) NOT NULL,
@@ -12,7 +12,7 @@ CREATE TABLE products IF NOT EXISTS(
   PRIMARY KEY(product_id)
 );
 
-CREATE TABLE feature IF NOT EXISTS(
+CREATE TABLE feature(
   id INT NOT NULL,
   product_id INT NOT NULL,
   feature VARCHAR(100) NOT NULL,
@@ -21,7 +21,7 @@ CREATE TABLE feature IF NOT EXISTS(
   FOREIGN KEY(product_id) REFERENCES products(product_id)
 );
 
-CREATE TABLE related IF NOT EXISTS(
+CREATE TABLE related(
   id INT NOT NULL,
   product_id INT NOT NULL,
   related_id INT NOT NULL,
@@ -29,7 +29,7 @@ CREATE TABLE related IF NOT EXISTS(
   FOREIGN KEY(product_id) REFERENCES products(product_id)
 );
 
-CREATE TABLE cart IF NOT EXISTS(
+CREATE TABLE cart(
   id INT NOT NULL,
   user_session INT NOT NULL,
   product_id INT NOT NULL,
@@ -38,7 +38,7 @@ CREATE TABLE cart IF NOT EXISTS(
   FOREIGN KEY(product_id) REFERENCES products(product_id)
 );
 
-CREATE TABLE styles IF NOT EXISTS(
+CREATE TABLE styles(
   style_id INT NOT NULL,
   product_id INT NOT NULL,
   name VARCHAR(100) NOT NULL,
@@ -49,7 +49,7 @@ CREATE TABLE styles IF NOT EXISTS(
   FOREIGN KEY(product_id) REFERENCES products(product_id)
 );
 
-CREATE TABLE skus IF NOT EXISTS(
+CREATE TABLE skus(
   id INT NOT NULL,
   style_id INT NOT NULL,
   size VARCHAR(10) NOT NULL,
@@ -58,7 +58,7 @@ CREATE TABLE skus IF NOT EXISTS(
   FOREIGN KEY(style_id) REFERENCES styles(style_id)
 );
 
-CREATE TABLE photo IF NOT EXISTS(
+CREATE TABLE photo(
   id INT NOT NULL,
   style_id INT NOT NULL,
   url TEXT ,
@@ -66,6 +66,23 @@ CREATE TABLE photo IF NOT EXISTS(
   PRIMARY KEY(id),
   FOREIGN KEY(style_id) REFERENCES styles(style_id)
 );
+
+\copy products from '/Users/ted777/Desktop/data/product.csv' with delimiter ',' csv header;
+\copy feature from '/Users/ted777/Desktop/data/features.csv' with delimiter ',' csv header;
+\copy related from '/Users/ted777/Desktop/data/related.csv' with delimiter ',' csv header;
+\copy cart from '/Users/ted777/Desktop/data/cart.csv' with delimiter ',' csv header;
+\copy styles from '/Users/ted777/Desktop/data/styles.csv' with delimiter ',' csv header;
+\copy skus from '/Users/ted777/Desktop/data/skus.csv' with delimiter ',' csv header;
+\copy photo from '/Users/ted777/Desktop/data/photos.csv' with delimiter ',' csv header;
+
+update styles set sale_price = NULL where sale_price = 'null';
+
+CREATE INDEX product_index ON products (product_id);
+CREATE INDEX feature_index ON feature (id);
+CREATE INDEX related_index ON related (id);
+CREATE INDEX styles_index ON styles (style_id);
+CREATE INDEX sku_index ON skus (id);
+CREATE INDEX photo_index ON photo (id);
 
 
 /*  Execute this file from the command line by typing:

@@ -7,7 +7,7 @@ module.exports = {
         console.log('Unable to get data from database', err);
         res.sendStatus(500);
       } else {
-        console.log("successfully get data",results);
+        //console.log("successfully get data",results);
         res.status(200).send(results);
       }
     })
@@ -50,10 +50,8 @@ module.exports = {
         console.log('Unable to get data from database', err);
         res.sendStatus(500);
       } else {
-        // console.log("successfully get single product styles",results.rows);
-        //process res data
-        let relatedId = results.rows.map(item => item.related_id);
-        res.status(200).send(relatedId);
+        //console.log("successfully get single product styles",results.rows);
+        res.status(200).send(results.rows[0].related);
       }
     })
   }
