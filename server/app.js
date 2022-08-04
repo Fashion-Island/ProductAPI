@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const db = require('./database');
 const router = require('./routes.js')
@@ -7,11 +8,10 @@ app.use(express.json()); //to parse
 app.use(express.static(__dirname + '/../client/dist')); //to serve client
 app.use('/products', router);
 
-app.set('port', 3000);
-if (!module.parent) {
-  app.listen(app.get('port'));
-  console.log('Listening on', app.get('port'));
-}
+const PORT = 3000 || process.env.PORT;
+app.listen(PORT, () => {
+  console.log(`server listening on PORT: ${PORT}`);
+});
 
 module.exports.app = app;
 

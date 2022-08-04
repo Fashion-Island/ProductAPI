@@ -2,8 +2,9 @@ const db = require('./database/index.js');
 
 module.exports = {
   getAll: (callback) => {
-    let queryStr = 'select * from products limit 5';
+    let queryStr = 'select p.product_id as id, p.name, p.slogan, p.description, p.category, p.default_price from products as p limit 5';
     db.query(queryStr, (err, results) => {
+      console.log("this is data", results.rows)
       callback(err, results.rows);
     })
   },
@@ -35,12 +36,12 @@ module.exports = {
       json_agg(distinct jsonb_build_object('url',p.url,'thumbnail_url',p.thumbnail_url)) as photos,
       json_object_agg(sk.id, json_build_object('quantity',sk.quantity,'size',sk.size)) as skus
       from styles as s
-      inner join photo as p on p.style_id = s.style_id
-      inner join skus as sk on sk.style_id = s.style_id
+      left join photo as p on p.style_id = s.style_id
+      left join skus as sk on sk.style_id = s.style_id
       where s.product_id = ${product_id}
       group by s.style_id`;
       styles = await db.query(queryStr);
-      console.log("this is the data", styles);
+      //console.log("this is the data", styles);
     } catch (err) {
       err = err.stack;
       console.log(err);
@@ -54,6 +55,7 @@ module.exports = {
     })
     styleData = {"product_id": product_id, "results": styles.rows}
     callback(err, styleData);
+
   },
 
   getRelated: (product_id, callback) => {
