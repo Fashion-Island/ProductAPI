@@ -78,11 +78,11 @@ CREATE TABLE photo(
 update styles set sale_price = NULL where sale_price = 'null';
 
 CREATE INDEX product_index ON products (product_id);
-CREATE INDEX feature_index ON feature (id);
-CREATE INDEX related_index ON related (id);
-CREATE INDEX styles_index ON styles (style_id);
-CREATE INDEX sku_index ON skus (id);
-CREATE INDEX photo_index ON photo (id);
+CREATE INDEX feature_index ON feature (product_id);
+CREATE INDEX related_index ON related (product_id);
+CREATE INDEX styles_index ON styles (product_id);
+CREATE INDEX sku_index ON skus (style_id);
+CREATE INDEX photo_index ON photo (style_id);
 
 
 /*  Execute this file from the command line by typing:
