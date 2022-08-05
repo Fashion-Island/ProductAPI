@@ -1,0 +1,28 @@
+config:
+  target: http://localhost:3000
+  phases:
+    - name: constant_arrival_rate
+      duration: 60
+      arrivalRate: 1000
+    - name: rampup_rate
+      duration: 60
+      arrivalRate: 100
+      rampTo: 1000
+    - name: fixed_arrival
+      duration: 60
+      arrivalCount: 10000
+  variables:
+    product_id:
+      - "1"
+      - "5"
+      - "9"
+
+scenarios:
+- name: productTest
+  flow:
+    - get:
+        url: /products
+    - get:
+        url: "/products/{{product_id}}"
+    - get:
+        url: "/products/{{product_id}}/styles"
